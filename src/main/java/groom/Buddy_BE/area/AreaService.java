@@ -23,4 +23,10 @@ public class AreaService {
 
         return area;
     }
+
+    // ID로 Area 조회하는 메서드
+    public Area findById(Long areaId) {
+        Optional<Area> area = areaRepository.findById(areaId);
+        return area.orElse(null);  // 존재하지 않으면 null 반환
+    }
 }
