@@ -17,6 +17,7 @@ public class CharacterController {
     private final MemberService memberService;
     private final CharacterService characterService;
 
+    //캐릭터 생성 - 온보딩 화면
     @PostMapping("/create")
     public ResponseEntity<?> createCharacter(
             @RequestHeader("kakaoId") Long kakaoId,
@@ -50,6 +51,7 @@ public class CharacterController {
         memberInfoDTO.setNickname(member.getNickname());
         memberInfoDTO.setKakaoId(kakaoId);
 
+        // 캐릭터 응답 DTO 생성 - 순회 문제 방지
         CharacterResponseDTO characterResponseDTO = new CharacterResponseDTO();
         characterResponseDTO.setId(character.getId());
         characterResponseDTO.setCharacterType(character.getCharacterType().name());
