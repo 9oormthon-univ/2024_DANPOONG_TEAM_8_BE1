@@ -25,4 +25,9 @@ public class CheckService {
         return checkList;
     }
 
+    // 사전 점검표 저장
+    @Transactional
+    public CheckList saveCheckList(CheckList checkList) {
+        return checkListRepository.save(checkList);
+    }
 }
