@@ -1,8 +1,10 @@
 package groom.Buddy_BE.character;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import groom.Buddy_BE.member.Member;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -21,6 +23,8 @@ public class Character {
 
     @OneToOne
     @JoinColumn(name = "member_id")
+    @JsonBackReference // 순환 참조 방지
+    @ToString.Exclude // 순환 참조 방지
     private Member member;
 
     public enum CharacterType {

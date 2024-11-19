@@ -1,5 +1,7 @@
 package groom.Buddy_BE.mission;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import groom.Buddy_BE.area.Area;
 import groom.Buddy_BE.member.Member;
 import groom.Buddy_BE.missionRecord.MissionRecord;
@@ -32,12 +34,15 @@ public class Mission {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
+    @JsonBackReference // 순환 참조 방지
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "area_id")
+    @JsonBackReference // 순환 참조 방지
     private Area area;
 
     @OneToOne(mappedBy = "mission", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private MissionRecord missionRecord;
 }

@@ -1,5 +1,7 @@
 package groom.Buddy_BE.area;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import groom.Buddy_BE.checkList.CheckList;
 import groom.Buddy_BE.member.Member;
 import groom.Buddy_BE.mission.Mission;
@@ -22,12 +24,15 @@ public class Area {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
+    @JsonBackReference
     private Member member;
 
     @OneToOne(mappedBy = "area", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private CheckList checkList;
 
     @OneToMany(mappedBy = "area", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Mission> missions = new ArrayList<>();
 
 
