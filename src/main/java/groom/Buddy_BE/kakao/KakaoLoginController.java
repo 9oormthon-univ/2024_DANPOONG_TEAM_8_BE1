@@ -43,11 +43,13 @@ public class KakaoLoginController {
             headers.set("Refresh-Token", jwtRefreshToken);
             headers.set("kakaoId", member.getKakaoId().toString()); // kakaoId 추가
 
-
+            // 캐릭터 존재 여부 판단
+            boolean hasCharacter = member.getCharacter() != null;
 
             // 응답 데이터 생성
             KakaoLoginResponse response = new KakaoLoginResponse(
                     "로그인 성공",
+                    hasCharacter,
                     member.getNickname()
             );
 
