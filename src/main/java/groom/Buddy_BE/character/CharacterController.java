@@ -50,9 +50,14 @@ public class CharacterController {
         memberInfoDTO.setNickname(member.getNickname());
         memberInfoDTO.setKakaoId(kakaoId);
 
-        return ResponseEntity.ok(characterResponseDTO);
-    }
+        CharacterResponseDTO characterResponseDTO = new CharacterResponseDTO();
+        characterResponseDTO.setId(character.getId());
+        characterResponseDTO.setCharacterType(character.getCharacterType().name());
+        characterResponseDTO.setCharacterName(character.getCharacterName());
+        characterResponseDTO.setLevel(character.getLevel());
+        characterResponseDTO.setMember(memberInfoDTO);
 
+        return ResponseEntity.ok(characterResponseDTO);
     }
 
 }
