@@ -1,5 +1,6 @@
 package groom.Buddy_BE.checkList;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import groom.Buddy_BE.area.Area;
 import groom.Buddy_BE.member.Member;
 import jakarta.persistence.*;
@@ -15,10 +16,12 @@ public class CheckList {
 
     @ManyToOne
     @JoinColumn(name = "member_id")
+    @JsonBackReference // 순환 참조 방지
     private Member member;
 
     @OneToOne
     @JoinColumn(name = "area_id")
+    @JsonBackReference // 순환 참조 방지
     private Area area;
 
     private int fistQ;
