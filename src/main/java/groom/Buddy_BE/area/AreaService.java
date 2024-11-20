@@ -29,4 +29,17 @@ public class AreaService {
         Optional<Area> area = areaRepository.findById(areaId);
         return area.orElse(null);  // 존재하지 않으면 null 반환
     }
+
+    //영역 완수 여부 - 완료로 변경
+    public Area completeArea(Long areaId) {
+
+        //영역에 매핑되어있는 미션들이 다 완수가 되었는지
+
+        Area area = findById(areaId);
+
+        area.setCompleted(true);
+        areaRepository.save(area);
+
+        return area;
+    }
 }
