@@ -21,10 +21,10 @@ public class MissionService {
     }
 
     // 특정 회원의 완료된 미션 DTO 반환
-    public List<MissionResponseDTO> getCompletedMissionsByKakaoId(Long kakaoId) {
+    public List<MissionResponse2DTO> getCompletedMissionsByKakaoId(Long kakaoId) {
         return missionRepository.findCompletedMissionsByKakaoId(kakaoId)
                 .stream()
-                .map(this::convertToDTO)
+                .map(this::convertToDTO2)
                 .collect(Collectors.toList());
     }
 
@@ -40,6 +40,16 @@ public class MissionService {
         return dto;
     }
 
+    //Mission 엔티티 DTO 반환 - 버전 2
+    private MissionResponse2DTO convertToDTO2(Mission mission) {
+        MissionResponse2DTO dto = new MissionResponse2DTO();
+        dto.setId(mission.getId());
+        dto.setMissionName(mission.getMission_name());
+        dto.setAreaName(mission.getArea().getAreaType().name());
+        dto.setCompleted(mission.isCompleted());
+
+        return dto;
+    }
 
 
 }

@@ -32,7 +32,7 @@ public class MissionController {
     // 완료된 미션 조회 API
     @GetMapping("/completed")
     public ResponseEntity<?> getCompletedMissions(@RequestHeader("kakaoId") Long kakaoId) {
-        List<MissionResponseDTO> completedMissions = missionService.getCompletedMissionsByKakaoId(kakaoId);
+        List<MissionResponse2DTO> completedMissions = missionService.getCompletedMissionsByKakaoId(kakaoId);
 
         if (completedMissions == null || completedMissions.isEmpty()) {
             // 빈 배열과 메시지를 함께 반환
