@@ -19,6 +19,7 @@ public class AreaController {
     private final AreaService areaService;
     private final MemberService memberService;
 
+    //영역 생성
     @PostMapping("/create")
     public ResponseEntity<?> createArea(
             @RequestHeader("kakaoId") Long kakaoId,
@@ -80,5 +81,23 @@ public class AreaController {
 
         return ResponseEntity.ok(areaHomeResponseDTO);
     }
+
+    // 영역 완수 후 넘어가는 새로운 영역 생성 페이지
+    @GetMapping("/next/create")
+    public ResponseEntity<?> nextCreateArea(
+            @RequestHeader("kakaoId") Long kakaoId
+    ) {
+        // 해당 유저의 영역 타입 리스트 가져오기
+        List<String> areaTypes = areaService.completeAreaTypes(kakaoId);
+
+        if (areaTypes.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("생성된 영역이 없습니다.");
+        }
+
+        // 영역 타입 리스트 반환
+        return ResponseEntity.ok(areaTypes);
+    }
+
 
 }
