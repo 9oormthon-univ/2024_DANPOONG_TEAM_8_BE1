@@ -111,13 +111,14 @@ public class MissionRecordController {
     //미션 기록 페이지 - 조회
     @GetMapping("/create")
     public ResponseEntity<?> getMissionRecords_page(
-            @RequestParam("mission") Long missionId){
+            @RequestParam("mission") Long missionId){ //파라미터로 미션 id 받아옴
 
         Mission mission = missionRepository.findById(missionId).orElse(null);
         if (mission == null) {
             return new ResponseEntity<>("미션이 존재하지 않습니다.", HttpStatus.NOT_FOUND);
         }
 
+        //응답 dto
         MissionResponseDTO missionResponseDTO = new MissionResponseDTO();
         missionResponseDTO.setMissionName(mission.getMission_name());
         missionResponseDTO.setAreaName(mission.getArea().getAreaType().name());
