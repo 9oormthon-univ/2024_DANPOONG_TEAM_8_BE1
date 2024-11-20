@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
 @RequestMapping("/character")
 @RequiredArgsConstructor
@@ -20,13 +19,15 @@ public class CharacterController {
     //캐릭터 생성 - 온보딩 화면
     @PostMapping("/create")
     public ResponseEntity<?> createCharacter(
-            @RequestHeader("kakaoId") Long kakaoId,
+            @RequestHeader("Authorization") String token,
             @RequestBody CharacterRequestDTO requestDTO) {
 
-        // 1. kakaoId를 통해 멤버 조회
-        Member member = memberService.findByKakaoId(kakaoId);
-        if (member == null) {
-            return new ResponseEntity<>("회원이 존재하지 않습니다.", HttpStatus.NOT_FOUND);
+        // 1. JWT 토큰을 통해 멤버 조회
+        Member member;
+        try {
+            member = memberService.findMemberByToken(token.replace("Bearer ", ""));
+        } catch (Exception e) {
+            return new ResponseEntity<>("유효하지 않은 토큰입니다.", HttpStatus.UNAUTHORIZED);
         }
 
         // 2. 캐릭터 타입 변환
@@ -49,9 +50,9 @@ public class CharacterController {
         MemberInfoDTO memberInfoDTO = new MemberInfoDTO();
         memberInfoDTO.setId(member.getId());
         memberInfoDTO.setNickname(member.getNickname());
-        memberInfoDTO.setKakaoId(kakaoId);
+        memberInfoDTO.setKakaoId(member.getKakaoId());
 
-        // 캐릭터 응답 DTO 생성 - 순회 문제 방지
+        // 캐릭터 응답 DTO 생성 - 순환 참조 방지
         CharacterResponseDTO characterResponseDTO = new CharacterResponseDTO();
         characterResponseDTO.setId(character.getId());
         characterResponseDTO.setCharacterType(character.getCharacterType().name());
@@ -62,18 +63,4 @@ public class CharacterController {
         return ResponseEntity.ok(characterResponseDTO);
     }
 
-    //캐릭터 성장 (테스트용)
-    @PostMapping("/level-up")
-    public ResponseEntity<?> levelUpCharacter(@RequestHeader("kakaoId") Long kakaoId) {
-        try {
-            // 레벨 업 로직 호출
-            Character updatedCharacter = characterService.levelUpCharacter(kakaoId);
-
-            // 성공적으로 업데이트된 캐릭터 응답
-            return ResponseEntity.ok(updatedCharacter);
-        } catch (IllegalArgumentException e) {
-            // 예외 처리
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
 }

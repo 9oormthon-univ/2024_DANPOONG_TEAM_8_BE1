@@ -4,6 +4,8 @@ import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 @RequiredArgsConstructor
 public class MemberRepository {
@@ -21,5 +23,10 @@ public class MemberRepository {
                 .getResultStream()
                 .findFirst()
                 .orElse(null);
+    }
+
+    public Optional<Member> findById(Long id) {
+        Member member = em.find(Member.class, id);
+        return Optional.ofNullable(member); // Optional로 감싸서 반환
     }
 }

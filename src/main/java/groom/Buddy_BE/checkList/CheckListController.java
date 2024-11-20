@@ -20,19 +20,20 @@ public class CheckListController {
     private final AreaService areaService;
     private final CheckService checkService;
 
-    //사전 점검표 생성
+    // 사전 점검표 생성
     @PostMapping("/create")
     public ResponseEntity<?> createCheckList(
-            @RequestHeader("kakaoId") Long kakaoId,
+            @RequestHeader("Authorization") String authorizationHeader,
             @RequestParam("areaId") Long areaId,  // 영역 ID를 파라미터로 받음
             @RequestBody CheckListRequestDTO requestDTO) {
 
-        // 1. 유저 매핑
-        Member member = memberService.findByKakaoId(kakaoId);
+        // 1. 토큰을 통해 멤버 매핑
+        String token = authorizationHeader.replace("Bearer ", "");
+        Member member = memberService.findMemberByToken(token);
+
         if (member == null) {
             return new ResponseEntity<>("회원이 존재하지 않습니다.", HttpStatus.NOT_FOUND);
         }
-
 
         // 2. 영역 매핑
         Area area = areaService.findById(areaId);

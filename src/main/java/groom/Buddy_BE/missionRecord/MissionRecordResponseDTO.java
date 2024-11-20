@@ -3,6 +3,7 @@ package groom.Buddy_BE.missionRecord;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import groom.Buddy_BE.character.CharacterResponseDTOForMission;
 import groom.Buddy_BE.member.MemberInfoDTO;
+import groom.Buddy_BE.mission.MissionResponse2DTO;
 import groom.Buddy_BE.mission.MissionResponseDTO;
 import lombok.Data;
 
@@ -18,7 +19,7 @@ public class MissionRecordResponseDTO {
 
     //미션 정보
     @JsonManagedReference
-    private MissionResponseDTO missionResponseDTO;
+    private MissionResponse2DTO missionResponse2DTO;
 
     private MemberInfoDTO memberInfoDTO;
 
