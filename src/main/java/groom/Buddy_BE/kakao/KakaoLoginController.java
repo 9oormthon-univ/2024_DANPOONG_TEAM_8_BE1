@@ -26,7 +26,7 @@ public class KakaoLoginController {
     private final JwtProvider jwtProvider;  // JWT 토큰을 생성하는 서비스
 
     @GetMapping("/callback")
-    public RedirectView callback(@RequestParam("code") String code) {
+    public ResponseEntity<?> callback(@RequestParam("code") String code) {
         try {
             // Access Token 받아오기
             String kakaoAccessToken = kakaoService.getAccessToken(code);
@@ -53,25 +53,16 @@ public class KakaoLoginController {
                     jwtRefreshToken
             );
 
-            // 리다이렉트 URL 설정 (query parameters 포함)
-            String redirectUrl = String.format("http://localhost:5173/auth?token=%s&refreshToken=%s&nickname=%s&hasCharacter=%b&kakaoId=%s",
-                    jwtAccessToken,
-                    jwtRefreshToken,
-                    URLEncoder.encode(member.getNickname(), StandardCharsets.UTF_8.toString()),
-                    hasCharacter,
-                    URLEncoder.encode(member.getKakaoId().toString(), StandardCharsets.UTF_8.toString())
-            );
-            RedirectView redirectView = new RedirectView();
-            redirectView.setUrl(redirectUrl);
-            return redirectView;
+            // JSON으로 응답
+            return ResponseEntity.ok(response);
 
         } catch (Exception e) {
             log.error("Error during Kakao login process", e);
-            RedirectView redirectView = new RedirectView();
-            redirectView.setUrl("http://localhost:5173/auth?error=login_failed");
-            return redirectView;
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("로그인 중 오류가 발생했습니다.");
         }
     }
+
 
     //헤더 토큰 테스트
     @GetMapping("/test")
