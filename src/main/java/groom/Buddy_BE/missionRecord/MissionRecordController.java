@@ -121,7 +121,7 @@ public class MissionRecordController {
         }
 
         // 3. 응답 DTO 생성
-        MissionResponseDTO missionResponseDTO = new MissionResponseDTO();
+        MissionResponse2DTO missionResponseDTO = new MissionResponse2DTO();
         missionResponseDTO.setId(mission.getId());
         missionResponseDTO.setMissionName(mission.getMission_name());
         missionResponseDTO.setAreaName(mission.getArea().getAreaType().name());
