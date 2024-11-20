@@ -72,4 +72,16 @@ public class HomeController {
         return ResponseEntity.ok(responseDTO);
     }
 
+    //마이페이지
+    @GetMapping("/mypage")
+    public ResponseEntity<?> mypage(@RequestHeader("kakaoId") Long kakaoId) {
+        Member member = memberService.findByKakaoId(kakaoId);
+
+        MemberInfoDTO memberInfoDTO = new MemberInfoDTO();
+        memberInfoDTO.setNickname(member.getNickname());
+        memberInfoDTO.setKakaoId(kakaoId);
+        memberInfoDTO.setId(kakaoId);
+
+        return ResponseEntity.ok(memberInfoDTO);
+    }
 }
