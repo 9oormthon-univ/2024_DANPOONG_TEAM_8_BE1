@@ -7,7 +7,6 @@ import groom.Buddy_BE.member.MemberInfoDTO;
 import groom.Buddy_BE.member.MemberService;
 import groom.Buddy_BE.mission.Mission;
 import groom.Buddy_BE.mission.MissionResponse2DTO;
-import groom.Buddy_BE.mission.MissionResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
