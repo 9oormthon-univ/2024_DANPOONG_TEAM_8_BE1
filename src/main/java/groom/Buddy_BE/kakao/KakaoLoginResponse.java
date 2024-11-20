@@ -1,12 +1,20 @@
 package groom.Buddy_BE.kakao;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@AllArgsConstructor
-public class KakaoLoginResponse {
-    private String message;        // 로그인 결과 메시지
-    private boolean hasCharacter;  // 캐릭터가 있는지 여부
-    private String nickname;       // 유저 닉네임
+class KakaoLoginResponse {
+    private String message;
+    private boolean hasCharacter;
+    private String nickname;
+    private String accessToken;
+    private String refreshToken;
+
+    public KakaoLoginResponse(String message, boolean hasCharacter, String nickname, String accessToken, String refreshToken) {
+        this.message = message;
+        this.hasCharacter = hasCharacter;
+        this.nickname = nickname;
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
+    }
 }
