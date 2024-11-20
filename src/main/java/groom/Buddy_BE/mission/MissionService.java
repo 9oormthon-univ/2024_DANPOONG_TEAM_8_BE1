@@ -34,6 +34,9 @@ public class MissionService {
         dto.setId(mission.getId());
         dto.setMissionName(mission.getMission_name());
         dto.setAreaName(mission.getArea().getAreaType().name());
+        dto.setDescription(mission.getDescription());
+        dto.setDuration(mission.getDuration());
+        dto.setSteps(mission.getSteps());
         return dto;
     }
 
