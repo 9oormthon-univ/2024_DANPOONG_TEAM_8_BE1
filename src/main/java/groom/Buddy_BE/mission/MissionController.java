@@ -26,4 +26,10 @@ public class MissionController {
         return ResponseEntity.ok(ongoingMissions);
     }
 
+    // 완료된 미션 조회 API
+    @GetMapping("/completed")
+    public ResponseEntity<List<MissionResponseDTO>> getCompletedMissions(@RequestHeader("kakaoId") Long kakaoId) {
+        List<MissionResponseDTO> completedMissions = missionService.getCompletedMissionsByKakaoId(kakaoId);
+        return ResponseEntity.ok(completedMissions);
+    }
 }
