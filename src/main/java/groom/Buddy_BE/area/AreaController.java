@@ -58,5 +58,4 @@ public class AreaController {
 
         return ResponseEntity.ok(responseDTO);
     }
-
 }
