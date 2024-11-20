@@ -61,4 +61,19 @@ public class AreaService {
                 .collect(Collectors.toList());
     }
 
+    //수행 중인 영역 출력
+    public String progressAreaType(Long kakaoId) {
+        Member member = memberService.findByKakaoId(kakaoId);
+
+        if (member == null) {
+            throw new IllegalArgumentException("회원이 존재하지 않습니다.");
+        }
+
+        // 수행 중인 영역의 areaType 반환 (isCompleted가 false인 첫 번째 영역)
+        return member.getAreas().stream()
+                .filter(area -> !area.isCompleted()) // isCompleted가 false인 영역 필터링
+                .map(area -> area.getAreaType().name()) // AreaType을 문자열로 변환
+                .findFirst() // 첫 번째 영역 반환
+                .orElse(null); // 없을 경우 null 반환
+    }
 }
