@@ -31,6 +31,7 @@ public class MissionService {
     // Mission 엔티티를 DTO로 변환
     private MissionResponseDTO convertToDTO(Mission mission) {
         MissionResponseDTO dto = new MissionResponseDTO();
+        dto.setId(mission.getId());
         dto.setMissionName(mission.getMission_name());
         dto.setAreaName(mission.getArea().getAreaType().name());
         return dto;
