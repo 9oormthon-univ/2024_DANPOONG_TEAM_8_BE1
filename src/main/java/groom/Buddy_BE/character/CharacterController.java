@@ -62,4 +62,18 @@ public class CharacterController {
         return ResponseEntity.ok(characterResponseDTO);
     }
 
+    //캐릭터 성장 (테스트용)
+    @PostMapping("/level-up")
+    public ResponseEntity<?> levelUpCharacter(@RequestHeader("kakaoId") Long kakaoId) {
+        try {
+            // 레벨 업 로직 호출
+            Character updatedCharacter = characterService.levelUpCharacter(kakaoId);
+
+            // 성공적으로 업데이트된 캐릭터 응답
+            return ResponseEntity.ok(updatedCharacter);
+        } catch (IllegalArgumentException e) {
+            // 예외 처리
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

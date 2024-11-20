@@ -20,6 +20,7 @@ public class CheckListController {
     private final AreaService areaService;
     private final CheckService checkService;
 
+    //사전 점검표 생성
     @PostMapping("/create")
     public ResponseEntity<?> createCheckList(
             @RequestHeader("kakaoId") Long kakaoId,
