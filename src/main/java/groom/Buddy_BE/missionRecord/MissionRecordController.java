@@ -108,5 +108,21 @@ public class MissionRecordController {
         return new ResponseEntity<>(missionRecordResponseDTO, HttpStatus.CREATED);
     }
 
+    //미션 기록 페이지 - 조회
+    @GetMapping("/create")
+    public ResponseEntity<?> getMissionRecords_page(
+            @RequestParam("mission") Long missionId){
+
+        Mission mission = missionRepository.findById(missionId).orElse(null);
+        if (mission == null) {
+            return new ResponseEntity<>("미션이 존재하지 않습니다.", HttpStatus.NOT_FOUND);
+        }
+
+        MissionResponseDTO missionResponseDTO = new MissionResponseDTO();
+        missionResponseDTO.setMissionName(mission.getMission_name());
+        missionResponseDTO.setAreaName(mission.getArea().getAreaType().name());
+
+        return new ResponseEntity<>(missionResponseDTO, HttpStatus.OK);
+    }
 
 }
