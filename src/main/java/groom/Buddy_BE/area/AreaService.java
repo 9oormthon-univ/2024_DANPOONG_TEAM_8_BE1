@@ -91,6 +91,7 @@ public class AreaService {
                 .findFirst() // 첫 번째 영역 가져오기
                 .orElse(null);
 
+        //테스트용
         if (progressArea == null) {
             return 0.0; // 수행 중인 영역이 없으면 0.0 반환
         }
