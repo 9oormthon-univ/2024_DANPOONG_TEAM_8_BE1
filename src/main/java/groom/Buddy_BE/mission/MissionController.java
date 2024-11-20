@@ -2,12 +2,15 @@ package groom.Buddy_BE.mission;
 
 import groom.Buddy_BE.mission.MissionResponseDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -28,8 +31,21 @@ public class MissionController {
 
     // 완료된 미션 조회 API
     @GetMapping("/completed")
-    public ResponseEntity<List<MissionResponseDTO>> getCompletedMissions(@RequestHeader("kakaoId") Long kakaoId) {
+    public ResponseEntity<?> getCompletedMissions(@RequestHeader("kakaoId") Long kakaoId) {
         List<MissionResponseDTO> completedMissions = missionService.getCompletedMissionsByKakaoId(kakaoId);
-        return ResponseEntity.ok(completedMissions);
+
+        if (completedMissions == null || completedMissions.isEmpty()) {
+            // 빈 배열과 메시지를 함께 반환
+            return ResponseEntity.ok(new HashMap<String, Object>() {{
+                put("message", "완료한 미션이 존재하지 않습니다.");
+                put("missions", new ArrayList<>()); // 빈 리스트 반환
+            }});
+        }
+
+        return ResponseEntity.ok(new HashMap<String, Object>() {{
+            put("missions", completedMissions);
+        }});
+
     }
 }
+
