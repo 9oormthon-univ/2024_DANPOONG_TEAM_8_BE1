@@ -120,6 +120,7 @@ public class MissionRecordController {
 
         //응답 dto
         MissionResponseDTO missionResponseDTO = new MissionResponseDTO();
+        missionResponseDTO.setId(mission.getId());
         missionResponseDTO.setMissionName(mission.getMission_name());
         missionResponseDTO.setAreaName(mission.getArea().getAreaType().name());
 

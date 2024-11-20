@@ -6,7 +6,7 @@ import groom.Buddy_BE.member.Member;
 import groom.Buddy_BE.member.MemberInfoDTO;
 import groom.Buddy_BE.member.MemberService;
 import groom.Buddy_BE.mission.Mission;
-import groom.Buddy_BE.mission.MissionResponseDTO;
+import groom.Buddy_BE.mission.MissionResponse2DTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,9 +54,10 @@ public class HomeController {
                 .findFirst()
                 .orElse(null);
 
-        MissionResponseDTO missionDTO = null;
+        MissionResponse2DTO missionDTO = null;
         if (firstMission != null) {
-            missionDTO = new MissionResponseDTO();
+            missionDTO = new MissionResponse2DTO();
+            missionDTO.setId(firstMission.getId());
             missionDTO.setMissionName(firstMission.getMission_name());
             missionDTO.setAreaName(firstMission.getArea().getAreaType().name());
             missionDTO.setCompleted(firstMission.isCompleted());

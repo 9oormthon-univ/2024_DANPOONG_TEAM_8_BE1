@@ -1,6 +1,7 @@
 package groom.Buddy_BE.Home;
 
 import groom.Buddy_BE.character.CharacterResponseDTOForMission;
+import groom.Buddy_BE.mission.MissionResponse2DTO;
 import groom.Buddy_BE.mission.MissionResponseDTO;
 import lombok.Data;
 
@@ -16,5 +17,5 @@ public class HomeResponseDTO {
     private CharacterResponseDTOForMission character;
 
     //미션명(제일 상단)
-    private MissionResponseDTO mission;
+    private MissionResponse2DTO mission;
 }
