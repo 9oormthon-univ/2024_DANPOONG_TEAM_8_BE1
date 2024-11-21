@@ -7,6 +7,7 @@ import groom.Buddy_BE.member.MemberInfoDTO;
 import groom.Buddy_BE.member.MemberService;
 import groom.Buddy_BE.mission.Mission;
 import groom.Buddy_BE.mission.MissionResponse2DTO;
+import groom.Buddy_BE.mission.MissionResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,13 +54,16 @@ public class HomeController {
                     .findFirst()
                     .orElse(null);
 
-            MissionResponse2DTO missionDTO = null;
+            MissionResponseDTO missionDTO = null;
             if (firstMission != null) {
-                missionDTO = new MissionResponse2DTO();
+                missionDTO = new MissionResponseDTO();
                 missionDTO.setId(firstMission.getId());
                 missionDTO.setMissionName(firstMission.getMission_name());
                 missionDTO.setAreaName(firstMission.getArea().getAreaType().name());
                 missionDTO.setCompleted(firstMission.isCompleted());
+                missionDTO.setDescription(firstMission.getDescription());
+                missionDTO.setSteps(firstMission.getSteps());
+                missionDTO.setDuration(firstMission.getDuration());
             }
 
             // 6. 응답 DTO 생성

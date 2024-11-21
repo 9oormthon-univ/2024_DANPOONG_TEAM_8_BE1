@@ -17,5 +17,5 @@ public class HomeResponseDTO {
     private CharacterResponseDTOForMission character;
 
     //미션명(제일 상단)
-    private MissionResponse2DTO mission;
+    private MissionResponseDTO mission;
 }

@@ -59,4 +59,11 @@ public class MemberService {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다.")); // 커스텀 예외로 변경 가능
     }
+
+    @Transactional
+    public Member findById(Long id) {
+        return memberRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+    }
+
 }
