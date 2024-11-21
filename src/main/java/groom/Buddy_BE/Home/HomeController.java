@@ -24,7 +24,7 @@ public class HomeController {
     private final MemberService memberService;
     private final AreaService areaService;
 
-    //홈 화면
+    // 홈 화면
     @GetMapping("")
     public ResponseEntity<?> home(@RequestHeader("Authorization") String authorizationHeader) {
         try {
@@ -46,6 +46,9 @@ public class HomeController {
                 characterDTO.setCharacterType(member.getCharacter().getCharacterType().toString());
                 characterDTO.setCharacterName(member.getCharacter().getCharacterName());
                 characterDTO.setLevel(member.getCharacter().getLevel());
+            } else {
+                // 캐릭터가 없는 경우 예외 처리
+                return new ResponseEntity<>("매핑된 캐릭터가 존재하지 않습니다.", HttpStatus.CONFLICT);
             }
 
             // 5. 진행 중인 첫 번째 미션 가져오기
@@ -78,6 +81,7 @@ public class HomeController {
             return new ResponseEntity<>("유효하지 않은 토큰입니다.", HttpStatus.UNAUTHORIZED);
         }
     }
+
 
     //마이페이지
     @GetMapping("/mypage")
