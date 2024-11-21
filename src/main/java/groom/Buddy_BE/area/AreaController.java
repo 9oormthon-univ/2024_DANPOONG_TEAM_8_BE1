@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -28,10 +29,14 @@ public class AreaController {
         String token = authorizationHeader.replace("Bearer ", "");
         Member member = memberService.findMemberByToken(token);
 
+        if (member == null) {
+            return new ResponseEntity<>("회원이 존재하지 않습니다.", HttpStatus.NOT_FOUND);
+        }
+
         // 2. 영역 생성 및 설정
         Area.AreaType areaType;
         try {
-            areaType = Area.AreaType.valueOf(requestDTO.getAreaType().toUpperCase()); // 문자열 -> enum 변환
+            areaType = Area.AreaType.valueOf(requestDTO.getAreaType().toUpperCase());
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>("유효하지 않은 영역 타입입니다.", HttpStatus.BAD_REQUEST);
         }
@@ -52,7 +57,7 @@ public class AreaController {
         AreaResponseDTO responseDTO = new AreaResponseDTO();
         responseDTO.setId(area.getId());
         responseDTO.setAreaType(area.getAreaType().name());
-        responseDTO.setMember(memberInfoDTO); // Member 관련 정보 추가
+        responseDTO.setMember(memberInfoDTO);
 
         return ResponseEntity.ok(responseDTO);
     }
@@ -63,6 +68,14 @@ public class AreaController {
         // JWT 토큰으로 멤버 조회
         String token = authorizationHeader.replace("Bearer ", "");
         Member member = memberService.findMemberByToken(token);
+
+        if (member == null) {
+            return new ResponseEntity<>("회원이 존재하지 않습니다.", HttpStatus.NOT_FOUND);
+        }
+
+        if (member.getCharacter() == null) {
+            return new ResponseEntity<>("캐릭터가 생성되지 않았습니다.", HttpStatus.NOT_FOUND);
+        }
 
         String progressAreaType = areaService.progressAreaType(member.getKakaoId());
         if (progressAreaType.isEmpty()) {
@@ -88,12 +101,20 @@ public class AreaController {
         String token = authorizationHeader.replace("Bearer ", "");
         Member member = memberService.findMemberByToken(token);
 
+        if (member == null) {
+            return new ResponseEntity<>("회원이 존재하지 않습니다.", HttpStatus.NOT_FOUND);
+        }
+
+        if (member.getAreas() == null || member.getAreas().isEmpty()) {
+            return new ResponseEntity<>("완수한 영역이 없습니다.", HttpStatus.NOT_FOUND);
+        }
+
         // 해당 유저의 영역 타입 리스트 가져오기
         List<String> areaTypes = areaService.completeAreaTypes(member.getKakaoId());
 
         if (areaTypes.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("생성된 영역이 없습니다.");
+                    .body("완수한 영역이 없습니다.");
         }
 
         // 영역 타입 리스트 반환
