@@ -65,33 +65,43 @@ public class AreaController {
     // 미션 - 자립 목표 페이지
     @GetMapping("/home")
     public ResponseEntity<?> homeArea(@RequestHeader("Authorization") String authorizationHeader) {
-        // JWT 토큰으로 멤버 조회
-        String token = authorizationHeader.replace("Bearer ", "");
-        Member member = memberService.findMemberByToken(token);
+        try {
+            // JWT 토큰으로 멤버 조회
+            String token = authorizationHeader.replace("Bearer ", "");
+            Member member = memberService.findMemberByToken(token);
 
-        if (member == null) {
-            return new ResponseEntity<>("회원이 존재하지 않습니다.", HttpStatus.NOT_FOUND);
+            if (member == null) {
+                return new ResponseEntity<>("회원이 존재하지 않습니다.", HttpStatus.NOT_FOUND);
+            }
+
+            if (member.getCharacter() == null) {
+                return new ResponseEntity<>("캐릭터가 생성되지 않았습니다.", HttpStatus.NOT_FOUND);
+            }
+
+            // 진행 중인 영역 타입 확인
+            String progressAreaType = areaService.progressAreaType(member.getKakaoId());
+
+            // 모든 영역이 완료되었을 경우 기본 메시지 설정
+            if (progressAreaType == null || progressAreaType.isEmpty()) {
+                progressAreaType = "ALL";
+            }
+
+            // 진행률 확인
+            double progressPercentage = areaService.progressPercentage(member.getKakaoId());
+
+            // 완료된 영역 타입 리스트
+            List<String> areaTypes = areaService.completeAreaTypes(member.getKakaoId());
+
+            // 응답 DTO 생성
+            AreaHomeResponseDTO areaHomeResponseDTO = new AreaHomeResponseDTO();
+            areaHomeResponseDTO.setProgressAreaType(progressAreaType);
+            areaHomeResponseDTO.setPercentage(progressPercentage);
+            areaHomeResponseDTO.setCompleteAreaTypes(areaTypes);
+
+            return ResponseEntity.ok(areaHomeResponseDTO);
+        } catch (Exception e) {
+            return new ResponseEntity<>("서버 에러가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        if (member.getCharacter() == null) {
-            return new ResponseEntity<>("캐릭터가 생성되지 않았습니다.", HttpStatus.NOT_FOUND);
-        }
-
-        String progressAreaType = areaService.progressAreaType(member.getKakaoId());
-        if (progressAreaType.isEmpty()) {
-            progressAreaType = "ALL";
-        }
-
-        double progressPercentage = areaService.progressPercentage(member.getKakaoId());
-
-        List<String> areaTypes = areaService.completeAreaTypes(member.getKakaoId());
-
-        AreaHomeResponseDTO areaHomeResponseDTO = new AreaHomeResponseDTO();
-        areaHomeResponseDTO.setProgressAreaType(progressAreaType);
-        areaHomeResponseDTO.setPercentage(progressPercentage);
-        areaHomeResponseDTO.setCompleteAreaTypes(areaTypes);
-
-        return ResponseEntity.ok(areaHomeResponseDTO);
     }
 
     // 영역 완수 후 넘어가는 새로운 영역 생성 페이지
