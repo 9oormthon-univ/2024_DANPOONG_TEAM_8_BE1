@@ -101,8 +101,8 @@ public class AreaService {
                 .filter(mission -> mission.isCompleted()) // 완료된 미션 필터링
                 .count();
 
-        // 미션 개수는 5개로 고정
-        int missionTotal = 2;
+        // 미션 개수는 4개로 고정
+        int missionTotal = 4;
         return (double) completedMissions / missionTotal * 100; // 수행률 반환
     }
 }
