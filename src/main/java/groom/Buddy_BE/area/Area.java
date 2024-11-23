@@ -40,7 +40,8 @@ public class Area {
         DAILY_LIFE,
         SELF_MANAGEMENT,
         MONEY_MANAGEMENT,
-        SOCIETY
+        SOCIETY,
+        ALL
     }
 
     //영역 완수 여부 필드

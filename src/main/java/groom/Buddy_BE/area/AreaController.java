@@ -79,7 +79,7 @@ public class AreaController {
 
         String progressAreaType = areaService.progressAreaType(member.getKakaoId());
         if (progressAreaType.isEmpty()) {
-            progressAreaType = "";
+            progressAreaType = "ALL";
         }
 
         double progressPercentage = areaService.progressPercentage(member.getKakaoId());
