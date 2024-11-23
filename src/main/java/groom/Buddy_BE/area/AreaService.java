@@ -102,7 +102,7 @@ public class AreaService {
                 .count();
 
         // 미션 개수는 5개로 고정
-        int missionTotal = 5;
+        int missionTotal = 2;
         return (double) completedMissions / missionTotal * 100; // 수행률 반환
     }
 }
