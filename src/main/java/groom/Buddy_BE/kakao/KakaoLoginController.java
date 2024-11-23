@@ -54,7 +54,7 @@ import java.nio.charset.StandardCharsets;
                 );
 
                 // 리다이렉트 URL 설정 (query parameters 포함)
-                String redirectUrl = String.format("http://localhost:5173/auth?token=%s&refreshToken=%s&nickname=%s&hasCharacter=%b&kakaoId=%s",
+                String redirectUrl = String.format("https://danpoong-buddy.vercel.app/auth?token=%s&refreshToken=%s&nickname=%s&hasCharacter=%b&kakaoId=%s",
                         jwtAccessToken,
                         jwtRefreshToken,
                         URLEncoder.encode(member.getNickname(), StandardCharsets.UTF_8.toString()),
