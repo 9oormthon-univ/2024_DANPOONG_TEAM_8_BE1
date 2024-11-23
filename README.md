@@ -54,7 +54,7 @@ src/
 │   │   ├── domain/         # 엔티티 클래스
 │   │   ├── dto/            # 데이터 전송 객체
 │   └── resources/
-│       ├── application.yml # 환경 설정 파일
+│       ├── application.properties # 환경 설정 파일
 └── test/                   # 테스트 코드
 ```
 
